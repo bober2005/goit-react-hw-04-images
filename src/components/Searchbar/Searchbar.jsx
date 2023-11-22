@@ -1,50 +1,24 @@
-import { useState } from 'react';
-import propTypes from 'prop-types';
-import './Searchbar.css';
-import { ReactComponent as SearchIcon } from '../../icon/search.svg';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { Component } from 'react';
+import css from "./Searchbar.module.css"
 
-export const Searchbar = ({ onSubmit }) => {
-  const [query, setQuery] = useState('');
 
-  const handleChange = event => {
-    setQuery(event.target.value.toLowerCase().trim());
-  };
 
-  const handleSubmit = event => {
-    event.preventDefault();
+export class Searchbar extends Component {
 
-    if (query === '') {
-      toast.error('Enter what you want to find please');
-      return;
-    }
+  handleSubmit =e=>{
+    const {onSubmit} = this.props
+    e.preventDefault()
+     const query =  e.target.elements.query.value.trim()
+     onSubmit(query)
+  }
+ render() {return (
 
-    onSubmit(query);
-    setQuery('');
-  };
-
-  return (
-    <header className="Searchbar">
-      <form className="SearchForm" onSubmit={handleSubmit} autoComplete="off">
-        <button type="submit" className="SearchForm-button">
-          <SearchIcon />
+  <header className={css.searchbar}>
+    <form className={css.searchForm} onSubmit={this.handleSubmit}>
+        <button className={css.searchButton}>
+            <span className={css.searchButtonLabel}>Search</span>
         </button>
-
-        <input
-          className="SearchForm-input"
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-          onChange={handleChange}
-          value={query}
-        />
-      </form>
-    </header>
-  );
-};
-
-Searchbar.propTypes = {
-  onSubmit: propTypes.func.isRequired,
+        <input className={css.searchInput} name="query" type="text" placeholder="Search images and photos"  autoFocus  autoComplete="off" />
+    </form>
+  </header>);}
 };

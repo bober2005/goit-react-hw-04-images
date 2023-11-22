@@ -1,35 +1,18 @@
-import propTypes from 'prop-types';
-import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
-import './ImageGallery.css';
+import css from './ImageGallery.module.css';
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
-export const ImageGallery = ({ images, onClick }) => {
+export const ImageGallery = ({ images, showModalImage }) => {
   return (
-    <div>
-      <ul className="ImageGallery">
-        {images.map(({ id, largeImageURL, tags, webformatURL }) => {
-          return (
-            <ImageGalleryItem
-              key={id}
-              largeImage={largeImageURL}
-              tags={tags}
-              preview={webformatURL}
-              onClick={onClick}
-            />
-          );
-        })}
-      </ul>
-    </div>
+    <ul className={css.imageGallery}>
+      {images.map(image => (
+        <ImageGalleryItem
+          key={image.id}
+          webformatImage={image.webformatURL}
+          showModalImage={showModalImage}
+          largeImage={image.largeImageURL}
+          description={image.tags}
+        />
+      ))}
+    </ul>
   );
-};
-
-ImageGallery.propTypes = {
-  images: propTypes.arrayOf(
-    propTypes.shape({
-      id: propTypes.number.isRequired,
-      webformatURL: propTypes.string.isRequired,
-      tags: propTypes.string.isRequired,
-      largeImageURL: propTypes.string,
-    })
-  ).isRequired,
-  onClick: propTypes.func,
 };
